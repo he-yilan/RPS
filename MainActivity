@@ -1,0 +1,115 @@
+package com.example.rockpaperscissors;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button bRock, bScissors, bPaper;
+    TextView score;
+    ImageView ivComputerChoice, ivHumanChoice;
+    String humanChoice = "";
+    String computerChoice = "";
+    String message;
+    int humanScore, computerScore = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        bRock = (Button) findViewById(R.id.bRock);
+        bPaper = (Button) findViewById(R.id.bPaper);
+        bScissors = (Button) findViewById(R.id.bScissors);
+
+        ivComputerChoice = (ImageView) findViewById(R.id.ivComputerChoice);
+        ivHumanChoice = (ImageView) findViewById(R.id.ivHumanChoice);
+
+        score = (TextView) findViewById(R.id.score);
+    }
+
+    public void rockClick(android.view.View view)
+    {
+        ivHumanChoice.setImageResource(R.drawable.rock);
+        message = playTurn("rock");
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        score.setText("Score: Human " + Integer.toString(humanScore) +" Computer "+ Integer.toString(computerScore));
+    }
+
+    public void paperClick(android.view.View view)
+    {
+        ivHumanChoice.setImageResource(R.drawable.paper);
+        message = playTurn("paper");
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        score.setText("Score: Human " + Integer.toString(humanScore) +" Computer "+ Integer.toString(computerScore));
+    }
+
+    public void scissorClick(android.view.View view)
+    {
+        ivHumanChoice.setImageResource(R.drawable.scissors);
+        message = playTurn("scissors");
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        score.setText("Score: Human " + Integer.toString(humanScore) +" Computer "+ Integer.toString(computerScore));
+    }
+
+    public String playTurn(String humanChoice) {
+        int computer = (int) (Math.random()*3);
+        this.humanChoice = humanChoice;
+        if (computer == 0)
+        {
+            ivComputerChoice.setImageResource(R.drawable.rock);
+            computerChoice = "rock";
+        }
+        else if (computer == 1)
+        {
+            ivComputerChoice.setImageResource(R.drawable.paper);
+            computerChoice = "paper";
+        }
+        else {
+            ivComputerChoice.setImageResource(R.drawable.scissors);
+            computerChoice = "scissors";
+        }
+
+        if (humanChoice.equals("rock") && computerChoice.equals("scissors"))
+        {
+            humanScore++;
+            return "Rock crushes scissors. You win!";
+        }
+        else if (humanChoice.equals("rock") && computerChoice.equals("paper"))
+        {
+            computerScore++;
+            return "Paper covers rock. Computer wins!";
+        }
+        else if (humanChoice.equals("scissors") && computerChoice.equals("rock"))
+        {
+            computerScore++;
+            return "Rock crushes scissors. Computer wins!";
+        }
+        else if (humanChoice.equals("scissors") && computerChoice.equals("paper"))
+        {
+            humanScore++;
+            return "Scissors cut paper. You win!";
+        }
+        else if (humanChoice.equals("paper") && computerChoice.equals("rock"))
+        {
+            humanScore++;
+            return "Paper covers rock. You win!";
+        }
+        else if (humanChoice.equals("paper") && computerChoice.equals("scissors"))
+        {
+            computerScore++;
+            return "Scissors cut paper. Computer wins!";
+        }
+        else
+        {
+            return "It's a tie.";
+        }
+    }
+
+
+}
